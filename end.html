@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CrackLab — Complete</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="window">
+  <div class="titlebar">
+    <div class="titlebar-dots">
+      <div class="dot close"></div><div class="dot min"></div><div class="dot max"></div>
+    </div>
+    <div class="titlebar-title">CrackLab v1.0 — Windows PowerShell</div>
+  </div>
+  <div class="terminal" id="terminal">
+    <div class="congrats">
+      <div class="ascii-art">
+ ██████╗ ██████╗ ███╗   ██╗ ██████╗ ██████╗  █████╗ ████████╗███████╗
+██╔════╝██╔═══██╗████╗  ██║██╔════╝ ██╔══██╗██╔══██╗╚══██╔══╝██╔════╝
+██║     ██║   ██║██╔██╗ ██║██║  ███╗██████╔╝███████║   ██║   ███████╗
+██║     ██║   ██║██║╚██╗██║██║   ██║██╔══██╗██╔══██║   ██║   ╚════██║
+╚██████╗╚██████╔╝██║ ╚████║╚██████╔╝██║  ██║██║  ██║   ██║   ███████║
+ ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚══════╝</div>
+      <h2>All Challenges Cleared</h2>
+      <p>
+        You have successfully completed all password security exercises.<br>
+        Well done — you now understand how passwords are cracked, leaked, hidden, and judged.
+      </p>
+      <div class="score-line">Session complete. You may close this terminal.</div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+if(!sessionStorage.getItem("cl4")){window.location.replace("level1.html");}
+})();
+</script>
+</body>
+</html>

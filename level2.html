@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CrackLab — Level 2</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="window">
+  <div class="titlebar">
+    <div class="titlebar-dots">
+      <div class="dot close"></div><div class="dot min"></div><div class="dot max"></div>
+    </div>
+    <div class="titlebar-title">CrackLab v1.0 — Windows PowerShell</div>
+  </div>
+  <div class="terminal" id="terminal">
+    <div class="boot-lines">
+      <div><span class="hi">CrackLab v1.0</span> — Password Security Training Module</div>
+      <div>Copyright (C) 2026 InfoSec Training Corp. All rights reserved.</div>
+      <div class="warn">WARNING: For authorised training purposes only.</div>
+      <div>Initialising challenge engine... <span class="hi">OK</span></div>
+    </div>
+    <hr class="sep">
+    <div class="level-header">
+      <span class="level-badge">Level 2</span>
+      <span class="level-title">The Unbreachable Password</span>
+    </div>
+    <div class="description">
+      We intercepted an authentication request and found this hash belonging to the person of interest.<br><br>
+      Hash: <span style="color:var(--cyan);letter-spacing:1px;">55c6a7028bb4e65872189cac362e5b71</span>
+    </div>
+    <div class="prompt-line">
+      <span class="prompt-sym">C:\&gt;</span>
+      <input class="ifield" id="inp" type="text" placeholder="enter password..." autocomplete="off" spellcheck="false">
+    </div>
+    <div class="btn-row">
+      <button class="btn" id="btn">[ SUBMIT ]</button>
+      <span class="attempt-ctr" id="att">Attempts: 0</span>
+    </div>
+    <div class="feedback" id="fb"></div>
+  </div>
+</div>
+<script src="engine.js"></script>
+<script>
+(function(){
+if(!sessionStorage.getItem("cl1")){window.location.replace("level1.html");return;}
+var n=0;
+function run(){
+  var r=document.getElementById("inp").value.trim();
+  n++;document.getElementById("att").textContent="Attempts: "+n;
+  try{history.pushState(null,"","?hash="+_CL.QP+"&attempt="+n);}catch(e){}
+  _CL.dig(r).then(function(h){
+    if(h===_CL.H2){
+      sessionStorage.setItem("cl2","1");
+      _CL.fb("fb","ACCESS GRANTED \u2014 password cracked.","ok");
+      setTimeout(function(){window.location.href="level3.html";},1200);
+    }else{_CL.glitch();_CL.fb("fb","ACCESS DENIED \u2014 try again.","err");}
+  });
+}
+document.getElementById("btn").addEventListener("click",run);
+document.getElementById("inp").addEventListener("keydown",function(e){if(e.key==="Enter")run();});
+})();
+</script>
+</body>
+</html>

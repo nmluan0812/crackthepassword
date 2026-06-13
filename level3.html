@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CrackLab — Level 3</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="window">
+  <div class="titlebar">
+    <div class="titlebar-dots">
+      <div class="dot close"></div><div class="dot min"></div><div class="dot max"></div>
+    </div>
+    <div class="titlebar-title">CrackLab v1.0 — Windows PowerShell</div>
+  </div>
+  <div class="terminal" id="terminal">
+    <div class="boot-lines">
+      <div><span class="hi">CrackLab v1.0</span> — Password Security Training Module</div>
+      <div>Copyright (C) 2026 InfoSec Training Corp. All rights reserved.</div>
+      <div class="warn">WARNING: For authorised training purposes only.</div>
+      <div>Initialising challenge engine... <span class="hi">OK</span></div>
+    </div>
+    <hr class="sep">
+    <div class="level-header">
+      <span class="level-badge">Level 3</span>
+      <span class="level-title">Hidden in Plain Sight</span>
+    </div>
+    <div class="description" id="desc">
+      Every page has secrets that most users never look for.<br>
+      Perhaps this one does too.
+    </div>
+    <div class="prompt-line">
+      <span class="prompt-sym">C:\&gt;</span>
+      <input class="ifield" id="inp" type="text" placeholder="enter password..." autocomplete="off" spellcheck="false">
+    </div>
+    <div class="btn-row">
+      <button class="btn" id="btn">[ SUBMIT ]</button>
+      <span class="attempt-ctr" id="att">Attempts: 0</span>
+    </div>
+    <div class="feedback" id="fb"></div>
+  </div>
+</div>
+<script src="engine.js"></script>
+<script>
+(function(){
+if(!sessionStorage.getItem("cl2")){window.location.replace("level1.html");return;}
+var d=document.getElementById("desc");
+d.parentNode.insertBefore(document.createComment(" PASSWORD: "+_CL.L3K+" "),d.nextSibling);
+var n=0;
+function run(){
+  var r=document.getElementById("inp").value.trim();
+  n++;document.getElementById("att").textContent="Attempts: "+n;
+  _CL.dig(r).then(function(h){
+    if(h===_CL.H3){
+      sessionStorage.setItem("cl3","1");
+      _CL.fb("fb","ACCESS GRANTED \u2014 you found the hidden password.","ok");
+      setTimeout(function(){window.location.href="level4.html";},1200);
+    }else{_CL.glitch();_CL.fb("fb","ACCESS DENIED \u2014 look harder.","err");}
+  });
+}
+document.getElementById("btn").addEventListener("click",run);
+document.getElementById("inp").addEventListener("keydown",function(e){if(e.key==="Enter")run();});
+})();
+</script>
+</body>
+</html>
