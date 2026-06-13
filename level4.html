@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CrackLab — Level 4</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="window">
+  <div class="titlebar">
+    <div class="titlebar-dots">
+      <div class="dot close"></div>
+      <div class="dot min"></div>
+      <div class="dot max"></div>
+    </div>
+    <div class="titlebar-title">CrackLab v1.0 — Windows PowerShell</div>
+  </div>
+  <div class="terminal" id="terminal">
+    <div class="boot-lines">
+      <div><span class="hi">CrackLab v1.0</span> — Password Security Training Module</div>
+      <div>Copyright (C) 2026 InfoSec Training Corp. All rights reserved.</div>
+      <div class="warn">WARNING: For authorised training purposes only.</div>
+      <div>Initialising challenge engine... <span class="hi">OK</span></div>
+    </div>
+    <hr class="sep">
+    <div class="level-header">
+      <span class="level-badge">Level 4</span>
+      <span class="level-title">The Strength Test</span>
+    </div>
+    <div class="description">
+      Prove you know what a strong password looks like.<br>
+      Create one that passes the security scanner.
+    </div>
+    <div class="prompt-line">
+      <span class="prompt-sym">C:\&gt;</span>
+      <input class="ifield" id="inp" type="text" placeholder="create a strong password..." autocomplete="off" spellcheck="false">
+    </div>
+    <div class="btn-row">
+      <button class="btn" id="btn">[ SCAN ]</button>
+      <span class="attempt-ctr" id="att">Attempts: 0</span>
+    </div>
+    <div class="feedback" id="fb"></div>
+    <div class="verdict-box" id="vbox">
+      <div class="vline">Verdict: <span id="vVerdict"></span></div>
+      <div class="vline">Est. crack time: <span id="vCrack"></span></div>
+    </div>
+  </div>
+</div>
+<script src="engine.js"></script>
+<script>
+(function(){
+var n=0;
+var phase="create";
+var saved="";
+function run(){
+  var r=document.getElementById("inp").value.trim();
+  if(!r)return;
+  n++;document.getElementById("att").textContent="Attempts: "+n;
+  if(phase==="create"){
+    var res=_CL.rubric(r);
+    var vb=document.getElementById("vbox");
+    document.getElementById("vVerdict").textContent=res.verdict||"\u2014";
+    document.getElementById("vCrack").textContent=res.crack||"\u2014";
+    vb.classList.add("show");
+    if(res.pass){
+      vb.className="verdict-box show strong-v";
+      _CL.fb("fb","STRONG PASSWORD CONFIRMED.","ok");
+      saved=r;
+      phase="crack";
+      setTimeout(function(){
+        var inp=document.getElementById("inp");
+        inp.value="";
+        inp.placeholder="enter the password again...";
+        inp.addEventListener("paste",function(e){e.preventDefault();},true);
+        vb.classList.remove("show");
+        _CL.fb("fb","Now enter it one more time to confirm.","info");
+        _CL.setBtn("btn",false,"[ SUBMIT ]");
+      },1800);
+    }else{
+      vb.className="verdict-box show weak-v";
+      _CL.fb("fb","WEAK PASSWORD \u2014 try again.","err");
+      _CL.setBtn("btn",false,"[ SCAN ]");
+    }
+  }else{
+    if(r===saved){
+      _CL.fb("fb","ACCESS GRANTED \u2014 challenge complete.","ok");
+      setTimeout(function(){window.location.href="end.html";},1200);
+    }else{
+      _CL.glitch();
+      _CL.fb("fb","ACCESS DENIED \u2014 that was not the password you created.","err");
+    }
+  }
+}
+document.getElementById("btn").addEventListener("click",run);
+document.getElementById("inp").addEventListener("keydown",function(e){if(e.key==="Enter")run();});
+})();
+</script>
+</body>
+</html>
